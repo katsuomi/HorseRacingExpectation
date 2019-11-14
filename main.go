@@ -1,8 +1,8 @@
 package main
 
 import (
+	"HorseRacingExpectation/scraping"
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -42,6 +42,7 @@ func main() {
 	mapNameCount = map[string]int{}
 	var mapNumberCount map[int]int
 	mapNumberCount = map[int]int{}
+	horseArray := []string{}
 
 	doc.Find(".txt_l").Each(func(i int, s *goquery.Selection) {
 		href, _ := s.Find("a").Attr("href")
@@ -53,10 +54,11 @@ func main() {
 				mapNameNumber[band] = band2Int
 				mapNameCount[band] = 0
 				mapNumberCount[band2Int] = 0
+				horseArray = append(horseArray, band)
 			}
 		}
 	})
-	fmt.Printf("%d\n", mapNameNumber["ラッキーライラック"])
-	fmt.Printf("%d\n", mapNameCount)
-	fmt.Printf("%d\n", mapNumberCount)
+	// fmt.Printf("%d\n", mapNameNumber["ラッキーライラック"])
+	// fmt.Printf("%d\n", mapNameCount)
+	scraping.Scraping(&mapNameCount, &mapNumberCount, &mapNameNumber, &horseArray)
 }
