@@ -4,14 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"strings"
 	"net/url"
+	"strings"
 	"unicode"
 
 	"github.com/ChimeraCoder/anaconda"
 )
 
-func Scraping(mapNameCount *map[string]int, mapNumberCount *map[string]int, mapNameNumber *map[string]string, horseArray *[]string) {
+func Scraping(mapNameCount *map[string]int, mapNumberCount *map[string]int, mapNameNumber *map[string]string) {
 	// Json読み込み
 	raw, error := ioutil.ReadFile("./twitterAccount.json")
 	if error != nil {
@@ -50,45 +50,42 @@ func Scraping(mapNameCount *map[string]int, mapNumberCount *map[string]int, mapN
 	}
 
 	v := url.Values{}
-	v.Set("count","10000")
-	v.Set("exclude","retweets")
+	v.Set("count", "10000")
+	v.Set("exclude", "retweets")
 	// 検索
 	searchResult, _ := api.GetSearch(`"パドック since:2019-11-10_15:10:00_JST until:2019-11-10_15:40:00_JST"`, v)
 	for _, tweet := range searchResult.Statuses {
 		// fmt.Printf("%s\n", tweet.FullText)
 		// fmt.Printf("%d\n", i)
-		for key,_ := range *mapNameCount {
-			if(strings.Contains(tweet.FullText,key) == true ){
+		for key, _ := range *mapNameCount {
+			if strings.Contains(tweet.FullText, key) == true {
 				(*mapNameCount)[key] += 1
 			}
 		}
-		for key,_ := range *mapNumberCount {
-			if(strings.Contains(tweet.FullText,key) == true || strings.Contains(tweet.FullText,strings.ToUpperSpecial(numConv, key)) == true ){
+		for key, _ := range *mapNumberCount {
+			if strings.Contains(tweet.FullText, key) == true || strings.Contains(tweet.FullText, strings.ToUpperSpecial(numConv, key)) == true {
 				(*mapNumberCount)[key] += 1
 			}
 		}
 	}
 
-	for key,_ := range *mapNumberCount {
+	for key, _ := range *mapNumberCount {
 		// fmt.Println(key)
-		for key2,_ := range *mapNameNumber {
-			if( key == (*mapNameNumber)[key2] ){
-				for key3,_ := range *mapNameCount {
-					if( key3 == key2 ){
+		for key2, _ := range *mapNameNumber {
+			if key == (*mapNameNumber)[key2] {
+				for key3, _ := range *mapNameCount {
+					if key3 == key2 {
 						(*mapNameCount)[key3] += (*mapNumberCount)[key]
 					}
 				}
 			}
 			// fmt.Println((*mapNameNumber)[key2])
-		 	// fmt.Printf("%T",key2)
-		 }
+			// fmt.Printf("%T",key2)
+		}
 		//  fmt.Println((*mapNameNumber)[key])
 		//  fmt.Printf("%T",(*mapNameNumber)[key])
 	}
 
-
-
-	// fmt.Println(horseArray)
 	fmt.Println(mapNameCount)
 	// fmt.Println(mapNumberCount)
 	// fmt.Println(mapNameNumber)
