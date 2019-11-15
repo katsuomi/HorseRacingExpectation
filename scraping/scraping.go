@@ -91,7 +91,7 @@ func Scraping(mapNameCount *map[string]int, mapNumberCount *map[string]int, mapN
 	// fmt.Println(mapNameNumber)
 }
 
-// TwitterAccount はTwitterの認証用の情報
+// TwitterAccount はTwitterの認証用の情報.
 type TwitterAccount struct {
 	AccessToken       string `json:"accessToken"`
 	AccessTokenSecret string `json:"accessTokenSecret"`
