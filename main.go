@@ -5,8 +5,8 @@ import (
 	"bytes"
 	"io/ioutil"
 	"net/http"
-	"strconv"
 	"strings"
+
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/saintfish/chardet"
@@ -36,12 +36,12 @@ func main() {
 	// HTMLパース
 	doc, _ := goquery.NewDocumentFromReader(reader)
 
-	var mapNameNumber map[string]int
-	mapNameNumber = map[string]int{}
+	var mapNameNumber map[string]string
+	mapNameNumber = map[string]string{}
 	var mapNameCount map[string]int
 	mapNameCount = map[string]int{}
-	var mapNumberCount map[int]int
-	mapNumberCount = map[int]int{}
+	var mapNumberCount map[string]int
+	mapNumberCount = map[string]int{}
 	horseArray := []string{}
 
 	doc.Find(".txt_l").Each(func(i int, s *goquery.Selection) {
@@ -50,10 +50,9 @@ func main() {
 			band := s.Find("a").Text()
 			band2 := s.Parent().Find("td").Next().Next().First().Text()
 			if band != "" && band2 != "" {
-				band2Int, _ := strconv.Atoi(band2)
-				mapNameNumber[band] = band2Int
+				mapNameNumber[band] = band2
 				mapNameCount[band] = 0
-				mapNumberCount[band2Int] = 0
+				mapNumberCount[band2] = 0
 				horseArray = append(horseArray, band)
 			}
 		}
