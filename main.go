@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"strings"
 
-
 	"github.com/PuerkitoBio/goquery"
 	"github.com/saintfish/chardet"
 	"golang.org/x/net/html/charset"
@@ -42,7 +41,6 @@ func main() {
 	mapNameCount = map[string]int{}
 	var mapNumberCount map[string]int
 	mapNumberCount = map[string]int{}
-	horseArray := []string{}
 
 	doc.Find(".txt_l").Each(func(i int, s *goquery.Selection) {
 		href, _ := s.Find("a").Attr("href")
@@ -53,11 +51,10 @@ func main() {
 				mapNameNumber[band] = band2
 				mapNameCount[band] = 0
 				mapNumberCount[band2] = 0
-				horseArray = append(horseArray, band)
 			}
 		}
 	})
 	// fmt.Printf("%d\n", mapNameNumber["ラッキーライラック"])
 	// fmt.Printf("%d\n", mapNameCount)
-	scraping.Scraping(&mapNameCount, &mapNumberCount, &mapNameNumber, &horseArray)
+	scraping.Scraping(&mapNameCount, &mapNumberCount, &mapNameNumber)
 }
