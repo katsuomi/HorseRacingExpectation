@@ -29,23 +29,23 @@ func Scraping(mapNameCount *map[string]int, mapNumberCount *map[string]int, mapN
 	numConv := unicode.SpecialCase{
 		// 半角の 0 から 9 に対する変換ルール
 		unicode.CaseRange{
-				0x0030, // Lo: 半角の 0
-				0x0039, // Hi: 半角の 9
-				[unicode.MaxCase]rune{
-						0xff10 - 0x0030, // UpperCase で全角に変換
-						0,               // LowerCase では変換しない
-						0xff10 - 0x0030, // TitleCase で全角に変換
-				},
+			0x0030, // Lo: 半角の 0
+			0x0039, // Hi: 半角の 9
+			[unicode.MaxCase]rune{
+				0xff10 - 0x0030, // UpperCase で全角に変換
+				0,               // LowerCase では変換しない
+				0xff10 - 0x0030, // TitleCase で全角に変換
+			},
 		},
 		// 全角の ０ から ９ に対する変換ルール
 		unicode.CaseRange{
-				0xff10, // Lo: 全角の ０
-				0xFF19, // Hi: 全角の ９
-				[unicode.MaxCase]rune{
-						0,               // UpperCase では変換しない
-						0x0030 - 0xff10, // LowerCase で半角に変換
-						0,               // TitleCase では変換しない
-				},
+			0xff10, // Lo: 全角の ０
+			0xFF19, // Hi: 全角の ９
+			[unicode.MaxCase]rune{
+				0,               // UpperCase では変換しない
+				0x0030 - 0xff10, // LowerCase で半角に変換
+				0,               // TitleCase では変換しない
+			},
 		},
 	}
 
