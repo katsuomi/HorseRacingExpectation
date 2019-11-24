@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	id := "p201908050411" //ここにネットケイバの各レース毎のIDをぶち込む
+	id := "c201905050811" //ここにネットケイバの各レース毎のIDをぶち込む
 	url := "https://race.netkeiba.com/?pid=race&id=" + id + "&mode=top"
 
 	// Getリクエスト
@@ -42,7 +42,6 @@ func main() {
 	mapNameCount = map[string]int{}
 	var mapNumberCount map[string]int
 	mapNumberCount = map[string]int{}
-	horseArray := []string{}
 
 	doc.Find(".txt_l").Each(func(i int, s *goquery.Selection) {
 		href, _ := s.Find("a").Attr("href")
@@ -53,11 +52,10 @@ func main() {
 				mapNameNumber[band] = band2
 				mapNameCount[band] = 0
 				mapNumberCount[band2] = 0
-				horseArray = append(horseArray, band)
 			}
 		}
 	})
 	// fmt.Printf("%d\n", mapNameNumber["ラッキーライラック"])
 	// fmt.Printf("%d\n", mapNameCount)
-	scraping.Scraping(&mapNameCount, &mapNumberCount, &mapNameNumber, &horseArray)
+	scraping.Scraping(&mapNameCount, &mapNumberCount, &mapNameNumber)
 }
