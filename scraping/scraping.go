@@ -7,11 +7,12 @@ import (
 	"strings"
 	"net/url"
 	"unicode"
+	"sort"
 
 	"github.com/ChimeraCoder/anaconda"
 )
 
-func Scraping(mapNameCount *map[string]int, mapNumberCount *map[string]int, mapNameNumber *map[string]string, horseArray *[]string) {
+func Scraping(mapNameCount *map[string]int, mapNumberCount *map[string]int, mapNameNumber *map[string]string) {
 	// Json読み込み
 	raw, error := ioutil.ReadFile("./twitterAccount.json")
 	if error != nil {
@@ -53,7 +54,7 @@ func Scraping(mapNameCount *map[string]int, mapNumberCount *map[string]int, mapN
 	v.Set("count","10000")
 	v.Set("exclude","retweets")
 	// 検索
-	searchResult, _ := api.GetSearch(`"パドック since:2019-11-10_15:10:00_JST until:2019-11-10_15:40:00_JST"`, v)
+	searchResult, _ := api.GetSearch(`"パドック since:2019-11-24_15:00:00_JST until:2019-11-24_15:40:00_JST"`, v)
 	for _, tweet := range searchResult.Statuses {
 		// fmt.Printf("%s\n", tweet.FullText)
 		// fmt.Printf("%d\n", i)
@@ -86,10 +87,15 @@ func Scraping(mapNameCount *map[string]int, mapNumberCount *map[string]int, mapN
 		//  fmt.Printf("%T",(*mapNameNumber)[key])
 	}
 
+	// fmt.Println(mapNameCount)
+	list := List{}
+	for k, v := range *mapNameCount {
+		e := Entry{k, v}
+		list = append(list, e)
+	}
+	sort.Sort(list)
+	fmt.Println(list)
 
-
-	// fmt.Println(horseArray)
-	fmt.Println(mapNameCount)
 	// fmt.Println(mapNumberCount)
 	// fmt.Println(mapNameNumber)
 }
@@ -100,4 +106,26 @@ type TwitterAccount struct {
 	AccessTokenSecret string `json:"accessTokenSecret"`
 	ConsumerKey       string `json:"consumerKey"`
 	ConsumerSecret    string `json:"consumerSecret"`
+}
+
+type Entry struct {
+	name  string
+	value int
+}
+type List []Entry
+
+func (l List) Len() int {
+	return len(l)
+}
+
+func (l List) Swap(i, j int) {
+	l[i], l[j] = l[j], l[i]
+}
+
+func (l List) Less(i, j int) bool {
+	if l[i].value == l[j].value {
+		return (l[i].name > l[j].name)
+	} else {
+		return (l[i].value > l[j].value)
+	}
 }
