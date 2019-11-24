@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"strings"
 
-
 	"github.com/PuerkitoBio/goquery"
 	"github.com/saintfish/chardet"
 	"golang.org/x/net/html/charset"
